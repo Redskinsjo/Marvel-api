@@ -1,15 +1,15 @@
-const express = require('express');
-const axios = require('axios');
-const uid2 = require('uid2');
-const md5 = require('md5');
-require('dotenv').config();
+const express = require("express");
+const axios = require("axios");
+const uid2 = require("uid2");
+const md5 = require("md5");
+require("dotenv").config();
 const apikey = process.env.MARVEL_PUBLIC_KEY;
 const api_secret = process.env.MARVEL_PRIVATE_KEY;
 
 const router = express.Router();
 
 // fetch all comics of a certain request
-router.post('/comics', async (req, res) => {
+router.post("/comics", async (req, res) => {
   const body = req.fields;
   try {
     const timestamp = uid2(7);
@@ -25,7 +25,7 @@ router.post('/comics', async (req, res) => {
             }&offset=${
               body.page !== 1 ? (body.page - 1) * body.limit : 0
             }&titleStartsWith=${body.search}`,
-            method: 'get',
+            method: "get",
             params: {
               apikey,
               ts: timestamp,
@@ -37,7 +37,7 @@ router.post('/comics', async (req, res) => {
             url: `http://gateway.marvel.com/v1/public/comics?orderBy=title&limit=${
               body.limit ? body.limit : null
             }&offset=${body.page !== 1 ? (body.page - 1) * body.limit : 0}`,
-            method: 'get',
+            method: "get",
             params: {
               apikey,
               ts: timestamp,
@@ -62,15 +62,15 @@ router.post('/comics', async (req, res) => {
 });
 
 // fetch all comics related to a certain character
-router.get('/character/:id/comics', async (req, res) => {
+router.get("/character/:id/comics", async (req, res) => {
   const id = req.params.id;
   try {
     const timestamp = uid2(7);
     const hash = md5(timestamp + api_secret + apikey);
 
     const response = await axios({
-      url: 'ttp://gateway.marvel.com/v1/public/characters/' + id + '/comics',
-      method: 'get',
+      url: "http://gateway.marvel.com/v1/public/characters/" + id + "/comics",
+      method: "get",
       params: {
         apikey,
         ts: timestamp,
