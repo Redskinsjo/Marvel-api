@@ -16,40 +16,40 @@ router.post("/comics", async (req, res) => {
     const hash = md5(timestamp + api_secret + apikey);
 
     let response;
-    if (Object.keys(body) !== 0) {
-      try {
-        if (body.search) {
-          response = await axios({
-            url: `http://gateway.marvel.com/v1/public/comics?orderBy=title&limit=${
-              body.limit || null
-            }&offset=${
-              body.page !== 1 ? (body.page - 1) * body.limit : 0
-            }&titleStartsWith=${body.search}`,
-            method: "get",
-            params: {
-              apikey,
-              ts: timestamp,
-              hash,
-            },
-          });
-        } else {
-          response = await axios({
-            url: `http://gateway.marvel.com/v1/public/comics?orderBy=title&limit=${
-              body.limit ? body.limit : null
-            }&offset=${body.page !== 1 ? (body.page - 1) * body.limit : 0}`,
-            method: "get",
-            params: {
-              apikey,
-              ts: timestamp,
-              hash: hash,
-            },
-          });
-        }
-      } catch (error) {
-        // console.log(error.response);
-        res.status(400).json(error.response);
+    // if (Object.keys(body) !== 0) {
+    try {
+      if (body.search) {
+        response = await axios({
+          url: `http://gateway.marvel.com/v1/public/comics?orderBy=title&limit=${
+            body.limit || null
+          }&offset=${
+            body.page !== 1 ? (body.page - 1) * body.limit : 0
+          }&titleStartsWith=${body.search}`,
+          method: "get",
+          params: {
+            apikey,
+            ts: timestamp,
+            hash,
+          },
+        });
+      } else {
+        response = await axios({
+          url: `http://gateway.marvel.com/v1/public/comics?orderBy=title&limit=${
+            body.limit ? body.limit : null
+          }&offset=${body.page !== 1 ? (body.page - 1) * body.limit : 0}`,
+          method: "get",
+          params: {
+            apikey,
+            ts: timestamp,
+            hash: hash,
+          },
+        });
       }
+    } catch (error) {
+      // console.log(error.response);
+      res.status(400).json(error.response);
     }
+    // }
     const responseObject = {
       results: response.data.data.results,
       total: response.data.data.total,
