@@ -84,4 +84,25 @@ router.get("/character/:id/comics", async (req, res) => {
   }
 });
 
+router.get("/comic/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const timestamp = uid2(7);
+    const hash = md5(timestamp + api_secret + apikey);
+
+    const response = await axios({
+      url: "http://gateway.marvel.com/v1/public/comics/" + id,
+      method: "get",
+      params: {
+        apikey,
+        ts: timestamp,
+        hash,
+      },
+    });
+    res.status(200).json(response.data.data.results);
+  } catch (error) {
+    res.status(400).json(error.response);
+  }
+});
+
 module.exports = router;
