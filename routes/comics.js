@@ -20,10 +20,12 @@ router.post("/comics", async (req, res) => {
     try {
       if (body.search) {
         response = await axios({
-          url: `http://gateway.marvel.com/v1/public/comics?orderBy=title&limit=${
-            body.limit || null
-          }&offset=${
-            body.page !== 1 ? (body.page - 1) * body.limit : 0
+          url: `http://gateway.marvel.com/v1/public/comics?orderBy=title${
+            body.limit ? "&limit=" + body.limit : ""
+          }${
+            body.page && body.page !== 1
+              ? "&offset=" + (body.page - 1) * body.limit
+              : ""
           }&titleStartsWith=${body.search}`,
           method: "get",
           params: {
@@ -34,9 +36,13 @@ router.post("/comics", async (req, res) => {
         });
       } else {
         response = await axios({
-          url: `http://gateway.marvel.com/v1/public/comics?orderBy=title&limit=${
-            body.limit ? body.limit : null
-          }&offset=${body.page !== 1 ? (body.page - 1) * body.limit : 0}`,
+          url: `http://gateway.marvel.com/v1/public/comics?orderBy=title${
+            body.limit ? "&limit=" + body.limit : ""
+          }${
+            body.page && body.page !== 1
+              ? "&offset=" + (body.page - 1) * body.limit
+              : ""
+          }`,
           method: "get",
           params: {
             apikey,
