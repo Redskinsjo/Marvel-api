@@ -15,7 +15,6 @@ router.post("/characters", async (req, res) => {
     const hash = md5(timestamp + api_secret + apikey);
     let response;
     let sent;
-    // if (Object.keys(body).length !== 0) {
     try {
       if (body.search) {
         response = await axios({
@@ -65,13 +64,34 @@ router.post("/characters", async (req, res) => {
     } catch (error) {
       res.status(400).json(error.response);
     }
-    // }
     res.status(200).json({
       results: response.data.data.results,
       total: sent.data.data.total,
     });
   } catch (error) {
-    // console.log(error);
+    res.status(400).json(error.response);
+  }
+});
+
+// fetch all characters related to a certain comic
+router.get("/comic/:id/characters", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const timestamp = uid2(7);
+    const hash = md5(timestamp + api_secret + apikey);
+
+    const response = await axios({
+      url: "http://gateway.marvel.com/v1/public/comics/" + id + "/characters",
+      method: "get",
+      params: {
+        apikey,
+        ts: timestamp,
+        hash,
+      },
+    });
+    console.log(response.data.data.results);
+    res.status(200).json(response.data.data.results);
+  } catch (error) {
     res.status(400).json(error.response);
   }
 });
