@@ -9,14 +9,14 @@ const api_secret = process.env.MARVEL_PRIVATE_KEY;
 const router = express.Router();
 
 // fetch all events related to a certain character
-router.get("/character/:id/events", async (req, res) => {
+router.get("/character/:id/series", async (req, res) => {
   const id = req.params.id;
   try {
     const timestamp = uid2(7);
     const hash = md5(timestamp + api_secret + apikey);
 
     const response = await axios({
-      url: "http://gateway.marvel.com/v1/public/characters/" + id + "/events",
+      url: "http://gateway.marvel.com/v1/public/characters/" + id + "/series",
       method: "get",
       params: {
         apikey,
