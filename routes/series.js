@@ -8,15 +8,15 @@ const api_secret = process.env.MARVEL_PRIVATE_KEY;
 
 const router = express.Router();
 
-// fetch all creators related to a certain comic
-router.get("/comic/:id/creators", async (req, res) => {
+// fetch all events related to a certain character
+router.get("/character/:id/events", async (req, res) => {
   const id = req.params.id;
   try {
     const timestamp = uid2(7);
     const hash = md5(timestamp + api_secret + apikey);
 
     const response = await axios({
-      url: "http://gateway.marvel.com/v1/public/comics/" + id + "/creators",
+      url: "http://gateway.marvel.com/v1/public/characters/" + id + "/events",
       method: "get",
       params: {
         apikey,
