@@ -16,7 +16,6 @@ router.post("/comics", async (req, res) => {
     const hash = md5(timestamp + api_secret + apikey);
 
     let response;
-    // if (Object.keys(body) !== 0) {
     try {
       if (body.search) {
         response = await axios({
@@ -52,10 +51,8 @@ router.post("/comics", async (req, res) => {
         });
       }
     } catch (error) {
-      // console.log(error.response);
       res.status(400).json(error.response);
     }
-    // }
     const responseObject = {
       results: response.data.data.results,
       total: response.data.data.total,
