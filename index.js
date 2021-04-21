@@ -26,6 +26,8 @@ const eventsRoutes = require("./routes/events.js");
 app.use(eventsRoutes);
 const storiesRoutes = require("./routes/stories.js");
 app.use(storiesRoutes);
+const seriesRoutes = require("./routes/series.js");
+app.use(seriesRoutes);
 const userRoutes = require("./routes/user.js");
 app.use(userRoutes);
 
