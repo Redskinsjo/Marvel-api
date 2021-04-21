@@ -1,7 +1,3 @@
-# Marvel
+# Description
 
-API faite en ExpressJs.
-
-## Functions
-
-Routes permettant la lecture des données sur l'API du site Marvel
+Express API serving routes to fetch data from the (Marvel official API){https://www.marvel.com/}.
